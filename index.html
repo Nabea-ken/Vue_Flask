@@ -1,55 +1,273 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vue Form</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+            integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<body>
+        <title>Vue Flask App</title>
 
-    <div id="app">
-    <form id="form" name="form" @submit.prevent="registerUser">
-        <label for="">Name</label>
-        <input type="text" id="name" v-model="name">
-        <label for="">Location</label>
-        <input type="text" id="location" v-model="location">
-        <button type="submit">Submit</button>
+        <!-- Bootstrap CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet">
 
-    </form>
-    </div>
+        <!-- DataTables CSS -->
+        <link rel="stylesheet"
+            href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    </head>
+
+    <body>
+
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+
+                <a class="navbar-brand" href="#">Vue Flask App</a>
+
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Register</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Users</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+        <div id="app" class="container mt-4">
+
+            <!-- Form -->
+            <form @submit.prevent="registerUser"
+                class="card p-4 shadow">
+
+                <h4 class="mb-3">Register User</h4>
+
+                <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" v-model="name">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Location</label>
+                    <input type="text" class="form-control" v-model="location">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </form>
+
+            <div class="alert alert-success" v-if="alertSuccessShow">
+                {{ alertMessage }}
+            </div>
+
+            <div class="alert alert-danger" v-if="alertErrorShow">
+                {{ alertMessage }}
+            </div>
+
+            <div class="text-center mt-3" v-if="loader">
+                 <i class="fa-solid fa-spinner fa-spin fa-3x"></i>
+            </div>
+
+            <div class="mt-3">
+                <h2>List of Users</h2>
+            </div>
+            <hr class="my-4">
+
+            <!-- Table -->
+            <table id="usersTable" class="table table-striped table-bordered">
+
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Location</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>1</td>
+                        <td>John</td>
+                        <td>Nairobi</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jane</td>
+                        <td>Mombasa</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Doe</td>
+                        <td>Kisumu</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Smith</td>
+                        <td>Nakuru</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Emily</td>
+                        <td>Eldoret</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Michael</td>
+                        <td>Thika</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>Sarah</td>
+                        <td>Nyeri</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>David</td>
+                        <td>Meru</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Anna</td>
+                        <td>Machakos</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>James</td>
+                        <td>Garissa</td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>Linda</td>
+                        <td>Kitale</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>Robert</td>
+                        <td>Busia</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>Jessica</td>
+                        <td>Voi</td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td>William</td>
+                        <td>Embu</td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td>Mary</td>
+                        <td>Isiolo</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+        <!-- DataTables -->
+        <script
+            src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+        <!-- Bootstrap JS -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Vue -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.16/vue.min.js"></script>
+
+        <!-- Axios -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.js"></script>
+
+        <script>
+
+$(document).ready(function () {
+$('#usersTable').DataTable();
+});
+
+
+new Vue({
+el : "#app",
+
+data : {
+name:"",
+location:"",
+alertSuccessShow: false,
+alertErrorShow: false,
+alertMessage: "",
+loader: false,
+},
+
+methods : {
+
+async registerUser() {
+
+  if (this.name === "" || this.location === "") {
+    this.alertErrorShow = true;
+    this.alertSuccessShow = false;
+    this.alertMessage = "Kindly fill all the fields!";
+    return;
+  }
+
+  try {
+
+    this.loader = true;
+
+    let response = await axios.post("http://127.0.0.1:5000/users", {
+      name: this.name,
+      location: this.location,
+    });
+
+    this.loader = false;
+    console.log(response.data);
+
+    this.alertErrorShow = false;
+    this.alertSuccessShow = true;
+    this.alertMessage = "User registered successfully!";
+
+    // clear form
+    this.name = "";
+    this.location = "";
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.16/vue.min.js"
-        integrity="sha512-Wx8niGbPNCD87mSuF0sBRytwW2+2ZFr7HwVDF8krCb3egstCc4oQfig+/cfg2OHd82KcUlOYxlSDAqdHqK5TCw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.js" 
-        integrity="sha512-+dJa1RvuE8/HFftifMtr7hqixdEkb/DizfXUZAA0pyZeVdNnyZyKy9RnIWi0JSWUznbCNbaQNn0E6nbtrdL+9g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script>
-        new Vue({
-            el : "#app",
-            data : {
-                name:"",
-                location:"",
-            },
-            methods : {
-                registerUser(){
-                    if (this.name === "" || this.location === ""){
-                        alert("kindly fill all the fields!")
-                    } else {
-                        let response = axios.post("http://127.0.0.1:5000/users", {
-                            name : this.name,
-                            location : this.location,
-                        });
-                        console.log(response);
-                    }
-                },
-            },
-        });
 
-    </script>
-</body>
+  } catch (error) {
 
+    this.loader = false;
+    console.error("Registration failed!", error);
+
+    this.alertErrorShow = true;
+    this.alertSuccessShow = false;
+    this.alertMessage = "Registration failed!";
+
+  } 
+}
+},
+});
+
+</script>
+
+    </body>
 </html>
