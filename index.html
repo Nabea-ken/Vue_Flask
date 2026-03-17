@@ -66,6 +66,11 @@
                     <input type="text" class="form-control" v-model="location">
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Age</label>
+                    <input type="text" class="form-control" v-model="age">
+                </div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
 
             </form>
@@ -95,6 +100,7 @@
                         <th>Id</th>
                         <th>Name</th>
                         <th>Location</th>
+                        <th>Age</th>
                     </tr>
                 </thead>
 
@@ -104,6 +110,7 @@
                         <td>{{ user.id }}</td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.location }}</td>
+                        <td>{{ user.age }}</td>
                     </tr>
 
                 </tbody>
@@ -140,6 +147,7 @@ el : "#app",
 data : {
 name:"",
 location:"",
+age: "",
 alertSuccessShow: false,
 alertErrorShow: false,
 alertMessage: "",
@@ -165,6 +173,7 @@ async registerUser() {
     let response = await axios.post("http://127.0.0.1:5000/users", {
       name: this.name,
       location: this.location,
+        age: this.age
     });
 
     this.loader = false;
@@ -180,6 +189,7 @@ async registerUser() {
     // clear form
     this.name = "";
     this.location = "";
+    this.age = "";
     
 
 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+    </head>
+    <body>
+        <div id="app">
+            <h2>Login</h2>
+
+            <form @submit.prevent="login">
+                <input type="email" v-model="email" placeholder="Email"
+                    required>
+                <input type="password" v-model="password" placeholder="Password"
+                    required>
+
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+        <!-- Vue -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.7.16/vue.min.js"></script>
+
+        <!-- Axios -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.8/axios.js"></script>
+
+        <script>
+new Vue({
+  el: "#app",
+  data: {
+    email: "",
+    password: ""
+  },
+  methods: {
+    async login() {
+      try {
+        const res = await axios.post("http://127.0.0.1:5000/login", {
+          email: this.email,
+          password: this.password
+        });
+
+        console.log(res.data);
+        alert(res.data.message);
+
+      } catch (err) {
+        console.error(err.response.data);
+        alert(err.response.data.message);
+      }
+    }
+  }
+});
+</script>
+
+    </body>
+</html>
